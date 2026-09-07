@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Credit Risk Platform</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f4f7fb;
+            color: #222;
+        }
+
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #1f4e79;
+            color: white;
+            padding: 30px;
+            border-radius: 12px 12px 0 0;
+        }
+
+
+        .header h1 {
+            margin-bottom: 8px;
+        }
+
+
+        .header p {
+            opacity: 0.9;
+        }
+
+
+        /* =========================
+           MAIN FORM
+        ========================= */
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .section-title {
+            color: #1f4e79;
+            margin: 25px 0 15px;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 8px;
+        }
+
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        label {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #1f4e79;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+
+        button {
+            background: #1f4e79;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+
+        button:hover {
+            background: #163a5c;
+        }
+
+
+        /* =========================
+           RESULT SECTION
+        ========================= */
+
+        #result {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            background: #f4f7fb;
+        }
+
+
+        .result-title {
+            color: #1f4e79;
+            margin-bottom: 20px;
+        }
+
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+
+        .result-box {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .result-box h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+
+        .result-box p {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+
+        /* =========================
+           SHAP EXPLANATION
+        ========================= */
+
+        .explanation {
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .explanation h3 {
+            color: #1f4e79;
+            margin-bottom: 8px;
+        }
+
+
+        .explanation-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+
+        .explanation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #f4f7fb;
+        }
+
+
+        .explanation-feature {
+            font-weight: bold;
+            color: #333;
+            word-break: break-word;
+        }
+
+
+        .explanation-impact {
+            font-weight: bold;
+            text-align: right;
+        }
+
+
+        .impact-increased {
+            color: #c62828;
+        }
+
+
+        .impact-decreased {
+            color: #2e7d32;
+        }
+
+
+        .shap-value {
+            margin-left: 8px;
+            color: #666;
+            font-weight: normal;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error {
+            color: #c62828;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           TALK-TO-DATA
+        ========================= */
+
+        .talk-section {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .talk-section h2 {
+            color: #1f4e79;
+            margin-bottom: 8px;
+        }
+
+
+        .talk-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+
+        .question-box {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        .question-box input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+
+        .question-box input:focus {
+            outline: none;
+            border-color: #1f4e79;
+        }
+
+
+        .question-box button {
+            padding: 13px 25px;
+            white-space: nowrap;
+        }
+
+
+        .chat-answer {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            background: #f4f7fb;
+            border-radius: 8px;
+            border-left: 4px solid #1f4e79;
+        }
+
+
+        .chat-answer strong {
+            color: #1f4e79;
+            margin-right: 5px;
+        }
+
+
+        .chat-error {
+            color: #c62828;
+            margin-top: 12px;
+        }
+
+
+        .chat-loading {
+            display: none;
+            margin-top: 12px;
+            color: #666;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .form-grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .explanation-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+
+            .explanation-impact {
+                text-align: left;
+            }
+
+
+            .question-box {
+                flex-direction: column;
+            }
+
+
+            .question-box button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- =========================
+             HEADER
+        ========================= -->
+
+        <div class="header">
+
+            <h1>
+                Credit Risk Prediction Platform
+            </h1>
+
+            <p>
+                Evaluate an applicant's potential credit default risk.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MAIN FORM
+        ========================= -->
+
+        <div class="form-container">
+
+
+            <form id="riskForm">
+
+
+                <h2 class="section-title">
+                    Applicant Information
+                </h2>
+
+
+                <div class="form-grid">
+
+
+                    <!-- Gender -->
+
+                    <div class="form-group">
+
+                        <label for="gender">
+                            Gender
+                        </label>
+
+                        <select id="gender">
+
+                            <option value="F">
+                                Female
+                            </option>
+
+                            <option value="M">
+                                Male
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Age -->
+
+                    <div class="form-group">
+
+                        <label for="age">
+                            Age
+                        </label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            min="18"
+                            max="100"
+                            value="30"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Income Type -->
+
+                    <div class="form-group">
+
+                        <label for="income_type">
+                            Income Type
+                        </label>
+
+                        <select id="income_type">
+
+                            <option value="Working">
+                                Working
+                            </option>
+
+                            <option value="Commercial associate">
+                                Commercial associate
+                            </option>
+
+                            <option value="Pensioner">
+                                Pensioner
+                            </option>
+
+                            <option value="State servant">
+                                State servant
+                            </option>
+
+                            <option value="Unemployed">
+                                Unemployed
+                            </option>
+
+                            <option value="Student">
+                                Student
+                            </option>
+
+                            <option value="Maternity leave">
+                                Maternity leave
+                            </option>
+
+                            <option value="Businessman">
+                                Businessman
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Family Status -->
+
+                    <div class="form-group">
+
+                        <label for="family_status">
+                            Family Status
+                        </label>
+
+                        <select id="family_status">
+
+                            <option value="Married">
+                                Married
+                            </option>
+
+                            <option value="Single / not married">
+                                Single / not married
+                            </option>
+
+                            <option value="Civil marriage">
+                                Civil marriage
+                            </option>
+
+                            <option value="Separated">
+                                Separated
+                            </option>
+
+                            <option value="Widow">
+                                Widow
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Property -->
+
+                    <div class="form-group">
+
+                        <label for="property">
+                            Own Property
+                        </label>
+
+                        <select id="property">
+
+                            <option value="Y">
+                                Yes
+                            </option>
+
+                            <option value="N">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Income -->
+
+                    <div class="form-group">
+
+                        <label for="income">
+                            Annual Income
+                        </label>
+
+                        <input
+                            type="number"
+                            id="income"
+                            min="0"
+                            value="180000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Credit -->
+
+                    <div class="form-group">
+
+                        <label for="credit">
+                            Credit Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="credit"
+                            min="0"
+                            value="500000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Annuity -->
+
+                    <div class="form-group">
+
+                        <label for="annuity">
+                            Loan Annuity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="annuity"
+                            min="0"
+                            value="25000"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Prediction Button -->
+
+                <div class="button-container">
+
+                    <button type="submit">
+                        Predict Credit Risk
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+            <!-- =========================
+                 RESULT
+            ========================= -->
+
+            <div id="result">
+
+
+                <h2 class="result-title">
+                    Risk Assessment Result
+                </h2>
+
+
+                <!-- Prediction Cards -->
+
+                <div class="result-grid">
+
+
+                    <div class="result-box">
+
+                        <h3>
+                            Default Probability
+                        </h3>
+
+                        <p id="probability">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-box">
+
+                        <h3>
+                            Risk Score
+                        </h3>
+
+                        <p id="score">
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div class="result-box">
+
+                        <h3>
+                            Risk Band
+                        </h3>
+
+                        <p id="band">
+                            -
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     SHAP EXPLANATION
+                ========================= -->
+
+                <div
+                    class="explanation"
+                    id="explanation"
+                >
+
+                    <h3>
+                        Why this prediction?
+                    </h3>
+
+                    <p class="explanation-description">
+                        The following factors had the strongest
+                        influence on the predicted credit risk.
+                    </p>
+
+
+                    <div id="explanation-list">
+
+                    </div>
+
+                </div>
+
+
+                <!-- Error -->
+
+                <div
+                    class="error"
+                    id="error"
+                ></div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             TALK-TO-DATA
+        ========================= -->
+
+        <div class="talk-section">
+
+
+            <h2>
+                Talk to Your Credit Data
+            </h2>
+
+
+            <p class="talk-description">
+                Ask questions about the credit dataset using natural language.
+            </p>
+
+
+            <div class="question-box">
+
+
+                <input
+                    type="text"
+                    id="question"
+                    placeholder="e.g. How many applicants defaulted?"
+                >
+
+
+                <button
+                    type="button"
+                    id="askButton"
+                >
+                    Ask
+                </button>
+
+
+            </div>
+
+
+            <!-- Loading -->
+
+            <div
+                class="chat-loading"
+                id="chatLoading"
+            >
+                Processing your question...
+            </div>
+
+
+            <!-- Answer -->
+
+            <div
+                class="chat-answer"
+                id="chatAnswer"
+            >
+
+                <strong>
+                    Answer:
+                </strong>
+
+                <span id="answerText">
+                </span>
+
+            </div>
+
+
+            <!-- Error -->
+
+            <div
+                class="chat-error"
+                id="chatError"
+            ></div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        // ============================================================
+        // CREDIT RISK PREDICTION
+        // ============================================================
+
+
+        document
+            .getElementById("riskForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+
+                    event.preventDefault();
+
+
+                    /* Collect applicant information */
+
+                    const data = {
+
+
+                        gender:
+                            document
+                            .getElementById("gender")
+                            .value,
+
+
+                        age:
+                            Number(
+                                document
+                                .getElementById("age")
+                                .value
+                            ),
+
+
+                        income_type:
+                            document
+                            .getElementById("income_type")
+                            .value,
+
+
+                        family_status:
+                            document
+                            .getElementById("family_status")
+                            .value,
+
+
+                        property:
+                            document
+                            .getElementById("property")
+                            .value,
+
+
+                        income:
+                            Number(
+                                document
+                                .getElementById("income")
+                                .value
+                            ),
+
+
+                        credit:
+                            Number(
+                                document
+                                .getElementById("credit")
+                                .value
+                            ),
+
+
+                        annuity:
+                            Number(
+                                document
+                                .getElementById("annuity")
+                                .value
+                            )
+
+                    };
+
+
+                    try {
+
+
+                        /* Send data to Flask */
+
+                        const response =
+                            await fetch(
+                                "/predict",
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body:
+                                        JSON.stringify(data)
+
+                                }
+                            );
+
+
+                        /* Convert response to JSON */
+
+                        const result =
+                            await response.json();
+
+
+                        /* Show result section */
+
+                        document
+                            .getElementById("result")
+                            .style.display = "block";
+
+
+                        /* Successful prediction */
+
+                        if (result.success) {
+
+
+                            /* Default probability */
+
+                            document
+                                .getElementById("probability")
+                                .textContent =
+                                (
+                                    result.default_probability
+                                    * 100
+                                ).toFixed(2) + "%";
+
+
+                            /* Risk score */
+
+                            document
+                                .getElementById("score")
+                                .textContent =
+                                result.risk_score.toFixed(2);
+
+
+                            /* Risk band */
+
+                            document
+                                .getElementById("band")
+                                .textContent =
+                                result.risk_band;
+
+
+                            /* Clear old explanations */
+
+                            const explanationList =
+                                document
+                                .getElementById(
+                                    "explanation-list"
+                                );
+
+
+                            explanationList.innerHTML = "";
+
+
+                            /* Display SHAP explanations */
+
+                            if (
+                                result.explanations &&
+                                result.explanations.length > 0
+                            ) {
+
+
+                                result.explanations.forEach(
+                                    function(item) {
+
+
+                                        const div =
+                                            document
+                                            .createElement("div");
+
+
+                                        div.className =
+                                            "explanation-item";
+
+
+                                        /* Determine impact */
+
+                                        const impactClass =
+                                            item.impact === "increased"
+                                            ? "impact-increased"
+                                            : "impact-decreased";
+
+
+                                        /* Add explanation */
+
+                                        div.innerHTML = `
+
+                                            <span class="explanation-feature">
+
+                                                ${item.feature}
+
+                                            </span>
+
+
+                                            <span class="explanation-impact ${impactClass}">
+
+                                                ${item.impact} risk
+
+                                                <span class="shap-value">
+
+                                                    (SHAP = ${item.shap_value})
+
+                                                </span>
+
+                                            </span>
+
+                                        `;
+
+
+                                        explanationList
+                                            .appendChild(div);
+
+
+                                    }
+                                );
+
+
+                            }
+
+
+                            else {
+
+
+                                explanationList.innerHTML =
+                                    "<p>No explanation available.</p>";
+
+                            }
+
+
+                            /* Clear error */
+
+                            document
+                                .getElementById("error")
+                                .textContent = "";
+
+
+                        }
+
+
+                        /* Prediction error */
+
+                        else {
+
+
+                            document
+                                .getElementById("error")
+                                .textContent =
+                                result.error ||
+                                "Prediction failed.";
+
+                        }
+
+
+                    }
+
+
+                    catch (error) {
+
+
+                        console.error(error);
+
+
+                        document
+                            .getElementById("result")
+                            .style.display = "block";
+
+
+                        document
+                            .getElementById("error")
+                            .textContent =
+                            "Unable to connect to the prediction server.";
+
+                    }
+
+
+                }
+
+            );
+
+
+        // ============================================================
+        // TALK-TO-DATA
+        // ============================================================
+
+
+        document
+            .getElementById("askButton")
+            .addEventListener(
+                "click",
+                async function() {
+
+
+                    const questionInput =
+                        document
+                        .getElementById("question");
+
+
+                    const question =
+                        questionInput.value.trim();
+
+
+                    const answerBox =
+                        document
+                        .getElementById("chatAnswer");
+
+
+                    const answerText =
+                        document
+                        .getElementById("answerText");
+
+
+                    const errorBox =
+                        document
+                        .getElementById("chatError");
+
+
+                    const loadingBox =
+                        document
+                        .getElementById("chatLoading");
+
+
+                    /* Clear previous messages */
+
+                    answerBox.style.display = "none";
+
+                    errorBox.textContent = "";
+
+                    loadingBox.style.display = "none";
+
+
+                    /* Check empty question */
+
+                    if (!question) {
+
+                        errorBox.textContent =
+                            "Please enter a question.";
+
+                        return;
+
+                    }
+
+
+                    try {
+
+
+                        /* Show loading */
+
+                        loadingBox.style.display =
+                            "block";
+
+
+                        /* Send question to Flask */
+
+                        const response =
+                            await fetch(
+                                "/ask",
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+                                        question: question
+                                    })
+
+                                }
+                            );
+
+
+                        /* Convert response to JSON */
+
+                        const result =
+                            await response.json();
+
+
+                        /* Hide loading */
+
+                        loadingBox.style.display =
+                            "none";
+
+
+                        /* Successful response */
+
+                        if (result.success) {
+
+
+                            answerText.textContent =
+                                result.answer;
+
+
+                            answerBox.style.display =
+                                "block";
+
+
+                        }
+
+
+                        /* Error response */
+
+                        else {
+
+
+                            errorBox.textContent =
+                                result.error ||
+                                "Unable to answer the question.";
+
+                        }
+
+
+                    }
+
+
+                    catch (error) {
+
+
+                        console.error(error);
+
+
+                        loadingBox.style.display =
+                            "none";
+
+
+                        errorBox.textContent =
+                            "Unable to connect to the server.";
+
+                    }
+
+                }
+
+            );
+
+
+        // ============================================================
+        // PRESS ENTER TO ASK
+        // ============================================================
+
+
+        document
+            .getElementById("question")
+            .addEventListener(
+                "keypress",
+                function(event) {
+
+
+                    if (event.key === "Enter") {
+
+
+                        document
+                            .getElementById("askButton")
+                            .click();
+
+
+                    }
+
+                }
+
+            );
+
+
+    </script>
+
+
+</body>
+
+</html>
