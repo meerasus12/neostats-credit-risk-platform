@@ -1,6 +1,7 @@
-data/
-*.db
 __pycache__/
 .env
 *.pyc
 .ipynb_checkpoints/
+
+data/*
+!data/applicant_template.csv

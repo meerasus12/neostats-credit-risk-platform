@@ -76,8 +76,7 @@ EXPLAINER_FILE = os.path.join(
 TRAIN_FILE = os.path.join(
     BASE_DIR,
     "data",
-    "home-credit-default-risk",
-    "application_train.csv"
+    "applicant_template.csv"
 )
 
 
@@ -170,9 +169,7 @@ def predict_risk(input_data):
     df = pd.read_csv(TRAIN_FILE)
 
     # Use the first applicant as a complete template
-    applicant = df.drop(
-        columns=["TARGET", "SK_ID_CURR"]
-    ).iloc[0].copy()
+    applicant = df.iloc[0].copy()
 
 
     # ------------------------------------------------------------
@@ -461,12 +458,7 @@ def test_predict():
         # TAKE FIRST APPLICANT
         # ----------------------------------------------------
 
-        test_applicant = df.drop(
-            columns=[
-                "TARGET",
-                "SK_ID_CURR"
-            ]
-        ).iloc[0].to_dict()
+        test_applicant = df.iloc[0].to_dict()
 
 
         # ----------------------------------------------------
@@ -849,9 +841,9 @@ def clear_memory_route():
 # ============================================================
 
 if __name__ == "__main__":
-
+    port = int(os.environ.get("PORT", 5000))
     app.run(
         host="0.0.0.0",
-        port=5000,
-        debug=True
+        port=port,
+        debug=False
     )
