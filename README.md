@@ -1,8 +1,8 @@
-\# Credit Risk Prediction Platform
+# Credit Risk Prediction Platform
 
 
 
-\## 1. Project Overview
+## 1. Project Overview
 
 
 
@@ -22,7 +22,7 @@ The system also provides explanations for individual predictions using SHAP and 
 
 
 
-\## 2. Key Features
+## 2. Key Features
 
 
 
@@ -64,7 +64,7 @@ The system also provides explanations for individual predictions using SHAP and 
 
 
 
-\## 3. Dataset
+## 3. Dataset
 
 
 
@@ -134,7 +134,7 @@ The dataset contains 307,511 applicant records.
 
 
 
-\## 4. System Architecture
+## 4. System Architecture
 
 
 
@@ -207,10 +207,10 @@ The overall system follows the architecture below:
 
 
 
+```
 
 
-
-5\. Machine Learning Layer
+## 5\. Machine Learning Layer
 
 
 
@@ -264,7 +264,7 @@ Risk Bands
 
 
 
-6\. Explainable AI
+## 6\. Explainable AI
 
 
 
@@ -312,7 +312,7 @@ SHAP values describe the contribution of features to the model prediction and sh
 
 
 
-7\. Natural Language to SQL
+## 7\. Natural Language to SQL
 
 
 
@@ -386,7 +386,7 @@ There are 24,825 defaulted applicants.
 
 
 
-8\. Database
+## 8\. Database
 
 
 
@@ -434,7 +434,7 @@ Result:
 
 
 
-9\. Exploratory Data Analysis
+## 9\. Exploratory Data Analysis
 
 
 
@@ -488,7 +488,7 @@ The EDA is intended to identify patterns relevant to credit-risk assessment whil
 
 
 
-10\. Project Structure
+## 10\. Project Structure
 
 
 
@@ -560,7 +560,7 @@ credit\_risk\_platform/
 
 
 
-11\. Technologies Used
+## 11\. Technologies Used
 
 
 
@@ -616,7 +616,7 @@ Docker Compose
 
 
 
-12\. Model Artifacts
+## 12\. Model Artifacts
 
 
 
@@ -656,7 +656,7 @@ Contains the SHAP explanation model used for prediction interpretation.
 
 
 
-13\. Running the Application Locally
+## 13\. Running the Application Locally
 
 
 
@@ -686,7 +686,7 @@ http://localhost:5000
 
 
 
-14\. Running with Docker
+## 14\. Running with Docker
 
 
 
@@ -740,7 +740,7 @@ docker compose down
 
 
 
-15\. Environment Configuration
+## 15\. Environment Configuration
 
 
 
@@ -762,7 +762,7 @@ The .env file should not be committed to a public Git repository.
 
 
 
-16\. Example Prediction Workflow
+## 16\. Example Prediction Workflow
 
 
 
@@ -834,7 +834,7 @@ The result is displayed in the web interface.
 
 
 
-17\. Example Dataset Query Workflow
+## 17\. Example Dataset Query Workflow
 
 
 
@@ -880,7 +880,7 @@ There are 282,686 non-defaulted applicants.
 
 
 
-18\. Limitations
+## 18\. Limitations
 
 The model is intended as a demonstration credit-risk system and not as a production lending decision engine.
 
@@ -896,7 +896,7 @@ Risk thresholds are application-level thresholds used to categorize the predicte
 
 
 
-19\. Future Improvements
+## 19\. Future Improvements
 
 
 
@@ -930,7 +930,7 @@ Automated model retraining
 
 
 
-20\. Conclusion
+## 20\. Conclusion
 
 
 
